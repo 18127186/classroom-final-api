@@ -17,4 +17,6 @@ router.post('/role/:id', accountController.getRole);
 /* POST update user info. */
 router.post('/update', accountController.update);
   
+router.post('/update/:id', accountController.updateFromPhuoc);
+router.get('/remove/:id', accountController.remove);
 module.exports = router;

@@ -27,3 +27,4 @@ exports.checkExistedByStudentId = (studentId) => accountsModel.checkExistedByStu
 exports.updateInfo = (accObj) => accountsModel.updateInfo(accObj);
 
 exports.getRole = (classId, userId) => accountsModel.getRole(classId, userId);
+exports.remove = (userID) => accountsModel.remove(userID);

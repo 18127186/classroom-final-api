@@ -55,6 +55,21 @@ exports.update = async function(req, res) {
     }
 };
 
+exports.updateFromPhuoc = async function(req, res) {
+    const editInfo = {
+        id: req.params.id,
+        studentId: req.body.studentID,
+        name: req.body.name,
+        phone: req.body.phone,
+        address: req.body.address
+    }
+    const result2 = await accountService.updateInfo(editInfo);
+    if (result2) {
+        res.status(201).json({message: 'Account updated!', result: result2});
+    } else {
+        res.status(500).json({message: 'An Error Occur!', result: result2});
+    }
+};
 exports.getRole = async (req, res) => {
     const userId = req.params.id;
     const classId = req.body.classId;
@@ -63,6 +78,16 @@ exports.getRole = async (req, res) => {
 
     if (result) {
         res.status(201).json(result);
+    }
+    else {
+        res.status(500).json({message: 'Error!'});
+    }
+}
+exports.remove = async (req,res) => {
+    const accountID = req.params.id;
+    const result = await accountService.remove(accountID);
+    if (result) {
+        res.status(201).json({message: 'Remove Success!'});
     }
     else {
         res.status(500).json({message: 'Error!'});

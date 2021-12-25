@@ -40,5 +40,7 @@ Account.isTeacherOfCLass = (userId, classID) => db.execute(
     `SELECT role
     FROM class_accounts
     WHERE id_account = '${userId}' AND id_class='${classID}'`);
-     
+
+Account.remove = (userID) => db.execute(
+    `DELETE FROM accounts WHERE id = '${userID}'`);
 module.exports = Account;
