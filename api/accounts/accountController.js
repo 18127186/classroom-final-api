@@ -93,3 +93,32 @@ exports.remove = async (req,res) => {
         res.status(500).json({message: 'Error!'});
     }
 }
+exports.lockAccount = async (req, res) => {
+    const accountID = req.params.id;
+    const result = await accountService.lockAccount(accountID);
+    res.status(201).json({message: 'Lock Success!'});
+}
+exports.mappingID = async (req, res) => {
+    const accountID = req.params.id;
+    // sai chỗ này à ??. deo biết. test thử
+    //const acc = await accountService.getInfoByUserId(accountID);
+    //console.log(acc);
+    //if (acc[0].studentID) {
+        await accountService.updateInfoForOneField('studentID', '', accountID);
+        res.status(201).json({message: 'Account updated!'});
+    //}
+    /*else { 
+mà vô lí. k phải await thì chỗ đó sai cái gì nhỉ
+        res.status(201).json({message: 'Account updated!'});
+        /*const result = await accountService.checkExistedByStudentId(req.body.studentID);
+
+        console.log(result)
+        if (result.length === 0) {
+            //tui nghĩ là nó vô được để update db đó ông. thử nhé
+            accountService.updateInfoForOneField('studentID', req.body.studentID , accountID);
+            res.status(201).json({message: 'Account updated!'});
+        } else {
+            res.status(500).json({message: 'Student ID existed!'});
+        }
+    }*/
+}

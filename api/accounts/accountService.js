@@ -28,3 +28,10 @@ exports.updateInfo = (accObj) => accountsModel.updateInfo(accObj);
 
 exports.getRole = (classId, userId) => accountsModel.getRole(classId, userId);
 exports.remove = (userID) => accountsModel.remove(userID);
+exports.lockAccount = async (userID) => {
+    var getValue = await accountsModel.getBan(userID);
+    var banValue = getValue[0].ban;
+    console.log(banValue);
+    if (banValue === 1) await accountsModel.updateInfoForOneField('ban', 0, userID);
+    else await accountsModel.updateInfoForOneField('ban', 1, userID);
+}

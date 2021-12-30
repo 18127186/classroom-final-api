@@ -10,8 +10,11 @@ passport.use(new LocalStrategy(
   async function(username, password, done) {
     const acc = await accountService.findAcc(username);
     if (acc) {
-      if (acc.password == password) {
-        return done(null, {id: acc.id, username: username});
+      if (acc.password == password) {   
+        if (acc.ban != 1) {
+          return done(null, {id: acc.id, username: username});
+        }
+        else return done(null, {message: 'banned'});
       }
     }
     return done(null, false, {message: 'incorrect'});

@@ -18,5 +18,8 @@ router.post('/role/:id', accountController.getRole);
 router.post('/update', accountController.update);
   
 router.post('/update/:id', accountController.updateFromPhuoc);
+
+router.post('/mapping/:id', accountController.mappingID);
+router.get('/lock/:id', accountController.lockAccount);
 router.get('/remove/:id', accountController.remove);
 module.exports = router;
