@@ -13,7 +13,7 @@ exports.getClassesByUserId = (userId) => db.execute(
 
 exports.addClass = (name, userId, description) => db.execute(
     "INSERT INTO classes (name, creator, description) "
-    + `VALUES ('${name}', '${userId}', '${description?? null}')`);
+    + `VALUES ('${name}', '${userId}', '${description}')`);
 
 exports.getCreatorByClassId = (classId) => db.execute(
     "SELECT creator " 

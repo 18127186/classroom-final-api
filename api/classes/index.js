@@ -17,4 +17,6 @@ router.get('/members/:id', classController.getMember);
 router.post('/uploadListStudent/:idClass', classController.addListStudent);
 
 router.get('/acceptlink/:tokenlink/:tokenid',classController.acceptlink);
+
+router.get('/admin', classController.listOfAdmin);
 module.exports = router;

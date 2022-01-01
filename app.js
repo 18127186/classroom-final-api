@@ -27,7 +27,7 @@ app.use(cors());
 app.use(passport.initialize());
 
 app.use('/classes', passport.authenticate('jwt', {session: false}), classesRouter);
-app.use('/accounts', passport.authenticate('jwt', {session: false}), accountsRouter);
+app.use('/accounts',  accountsRouter);
 app.use('/login', loginRouter);
 app.use('/auth', authRouter);
 app.use('/assignment',  passport.authenticate('jwt', {session: false}), assignmentRouter);

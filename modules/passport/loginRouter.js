@@ -5,6 +5,9 @@ const passport = require('./index');
 
 /* GET home page. */
 router.post('/', passport.authenticate('local', {session: false}), function(req, res, next) {
+  if (req.user.message) {
+    return res.json(req.user);
+  }
   res.json({
       user: req.user,
       token: jwt.sign({

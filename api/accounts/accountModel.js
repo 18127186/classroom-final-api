@@ -13,13 +13,16 @@ Account.getInfoByUserId = (id) => db.execute(
 Account.getAccounts = () => db.execute(
     "SELECT *" 
     + "FROM accounts");
-
+Account.getTypeAccounts =(type) => db.execute(
+    "SELECT * " 
+    + `FROM accounts WHERE typeaccount = 'user'`
+);
 Account.createAccount = (accObj) => db.execute(
     "INSERT INTO accounts (username, password, googleID, facebookID, email) "
     + `VALUES ('${accObj.username}', '${accObj.password}', '${accObj.googleID}', '${accObj.facebookID}', '${accObj.email}')`);
 
 Account.updateInfoForOneField = (field, infor, idOfobj) => db.execute(
-    `UPDATE accounts SET ${field}='${infor}' WHERE id = '${idOfobj}'`);
+    `UPDATE accounts SET ${field} ='${infor}' WHERE id = '${idOfobj}'`);
 
 Account.updateInfo = (userinfo) => db.execute(
     `UPDATE accounts
@@ -43,4 +46,9 @@ Account.isTeacherOfCLass = (userId, classID) => db.execute(
 
 Account.remove = (userID) => db.execute(
     `DELETE FROM accounts WHERE id = '${userID}'`);
+
+Account.getBan = (userID) => db.execute(
+    `SELECT ban
+     FROM accounts
+     WHERE id = '${userID}'`);
 module.exports = Account;
