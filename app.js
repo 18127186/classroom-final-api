@@ -13,6 +13,7 @@ const loginRouter = require('./modules/passport/loginRouter');
 const authRouter = require('./api/authenticator');
 const emailRouter = require('./api/email');
 const gradeRouter = require('./api/grades');
+const reviewRouter = require('./api/reviews');
 const app = express();
 
 const connection = require("./database");
@@ -32,6 +33,7 @@ app.use('/auth', authRouter);
 app.use('/assignment',  passport.authenticate('jwt', {session: false}), assignmentRouter);
 app.use('/grades', passport.authenticate('jwt', {session: false}), gradeRouter);
 app.use('/sendEmail', passport.authenticate('jwt', {session: false}), emailRouter);
+app.use('/reviews', passport.authenticate('jwt', {session: false}), reviewRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
