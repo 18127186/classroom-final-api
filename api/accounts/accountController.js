@@ -100,7 +100,6 @@ exports.lockAccount = async (req, res) => {
 }
 exports.mappingID = async (req, res) => {
     const accountID = req.params.id;
-    // sai chỗ này à ??. deo biết. test thử
     //const acc = await accountService.getInfoByUserId(accountID);
     //console.log(acc);
     //if (acc[0].studentID) {
@@ -108,13 +107,11 @@ exports.mappingID = async (req, res) => {
         res.status(201).json({message: 'Account updated!'});
     //}
     /*else { 
-mà vô lí. k phải await thì chỗ đó sai cái gì nhỉ
         res.status(201).json({message: 'Account updated!'});
         /*const result = await accountService.checkExistedByStudentId(req.body.studentID);
 
         console.log(result)
         if (result.length === 0) {
-            //tui nghĩ là nó vô được để update db đó ông. thử nhé
             accountService.updateInfoForOneField('studentID', req.body.studentID , accountID);
             res.status(201).json({message: 'Account updated!'});
         } else {
@@ -122,3 +119,27 @@ mà vô lí. k phải await thì chỗ đó sai cái gì nhỉ
         }
     }*/
 }
+
+exports.userAccount = async function (req,res) {
+    console.log(1);
+}
+exports.adminAccount = async () => {
+    console.log(1111111);
+    // const accs = await accountService.adminAccount();
+
+    // if (accs) {
+    //     res.status(200).json(accs);
+    // } else {
+    //     res.status(404).json({message: 'No accounts available!'});
+    // }
+}
+//exports.userAccount = async () => {
+   // console.log(1111111);
+    /*const accs = await accountService.userAccount();
+    console.log(accs);
+    if (accs) {
+        res.status(200).json(accs);
+    } else {
+        res.status(404).json({message: 'No accounts available!'});
+    }*/
+//}

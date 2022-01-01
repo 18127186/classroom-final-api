@@ -19,3 +19,5 @@ exports.getMembersByClassId = (classId, role) => classesModel.getMembersByClassI
 exports.addStudent = (class_id, studentObj) => classesModel.addStudent(class_id, studentObj);
 
 exports.deleteStudentsFromClass = (class_id) => classesModel.deleteStudentsFromClass(class_id);
+exports.listOfAdmin = () => 
+    classesModel.getClasses();

@@ -35,3 +35,6 @@ exports.lockAccount = async (userID) => {
     if (banValue === 1) await accountsModel.updateInfoForOneField('ban', 0, userID);
     else await accountsModel.updateInfoForOneField('ban', 1, userID);
 }
+
+exports.adminAccount = () => accountsModel.getTypeAccounts('admin');
+exports.userAccount = () => accountsModel.getTypeAccounts('user');

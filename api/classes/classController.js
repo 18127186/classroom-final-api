@@ -114,3 +114,12 @@ exports.addListStudent = async function(req,res) {
         }
     }
 }
+exports.listOfAdmin = async function(req, res) {
+    const classes = await classService.listOfAdmin();
+
+    if (classes) {
+        res.status(200).json(classes);
+    } else {
+        res.status(404).json({message: 'No classes available!'});
+    }
+};

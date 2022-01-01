@@ -13,7 +13,10 @@ Account.getInfoByUserId = (id) => db.execute(
 Account.getAccounts = () => db.execute(
     "SELECT *" 
     + "FROM accounts");
-
+Account.getTypeAccounts =(type) => db.execute(
+    "SELECT * " 
+    + `FROM accounts WHERE typeaccount = 'user'`
+);
 Account.createAccount = (accObj) => db.execute(
     "INSERT INTO accounts (username, password, googleID, facebookID, email) "
     + `VALUES ('${accObj.username}', '${accObj.password}', '${accObj.googleID}', '${accObj.facebookID}', '${accObj.email}')`);
