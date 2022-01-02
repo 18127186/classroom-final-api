@@ -98,16 +98,50 @@ exports.lockAccount = async (req, res) => {
     const result = await accountService.lockAccount(accountID);
     res.status(201).json({message: 'Lock Success!'});
 }
-exports.mappingID = async (req, res) => {
-    const accountID = req.params.id;
-    //const acc = await accountService.getInfoByUserId(accountID);
-    //console.log(acc);
-    //if (acc[0].studentID) {
-        await accountService.updateInfoForOneField('studentID', '', accountID);
-        res.status(201).json({message: 'Account updated!'});
-    //}
-    /*else { 
-        res.status(201).json({message: 'Account updated!'});
+
+exports.adminAccount = async (req,res) => {
+    const accs = await accountService.adminAccount();
+
+    if (accs) {
+        res.status(200).json(accs);
+    } else {
+        res.status(404).json({message: 'No accounts available!'});
+    }
+}
+exports.userAccount = async (req,res) => {
+    const accs = await accountService.userAccount();
+    if (accs) {
+        res.status(200).json(accs);
+    } else {
+        res.status(404).json({message: 'No accounts available!'});
+    }
+}
+exports.createAdmin = async (req,res) => {
+    const newAcc = req.body;
+    const result = await accountService.createAdmin(newAcc);
+
+    if (result) {
+        res.status(201).json({message: 'Account created!', id: result.insertId});
+    } else {
+        res.status(500).json({message: 'Error Account class!'});
+    }
+}
+exports.mappingStudentID = async (req,res) => {
+    const accountID = req.body.accountID;
+    console.log(accountID);
+    const acc = await accountService.getInfoByUserId(accountID);
+    console.log(acc);
+    if (acc[0].studentID) {
+        const result = await accountService.unmap(accountID);
+        res.status(201).json({message: 'Unmap Success!'});
+    }
+    else {
+        console.log(req.body);
+        //const result = await accountService.mapping(req.body.accountID, req.body.studentID);
+        const result = await accountService.mapping(66, '18127186');
+        if (result) 
+            res.status(201).json({message: 'Account updated!'});
+        else res.status(500).json({message: 'Student ID existed!'});
         /*const result = await accountService.checkExistedByStudentId(req.body.studentID);
 
         console.log(result)
@@ -116,30 +150,7 @@ exports.mappingID = async (req, res) => {
             res.status(201).json({message: 'Account updated!'});
         } else {
             res.status(500).json({message: 'Student ID existed!'});
-        }
-    }*/
+        }*/
+    }
+    
 }
-
-exports.userAccount = async function (req,res) {
-    console.log(1);
-}
-exports.adminAccount = async () => {
-    console.log(1111111);
-    // const accs = await accountService.adminAccount();
-
-    // if (accs) {
-    //     res.status(200).json(accs);
-    // } else {
-    //     res.status(404).json({message: 'No accounts available!'});
-    // }
-}
-//exports.userAccount = async () => {
-   // console.log(1111111);
-    /*const accs = await accountService.userAccount();
-    console.log(accs);
-    if (accs) {
-        res.status(200).json(accs);
-    } else {
-        res.status(404).json({message: 'No accounts available!'});
-    }*/
-//}

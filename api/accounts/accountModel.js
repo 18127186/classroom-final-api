@@ -15,7 +15,7 @@ Account.getAccounts = () => db.execute(
     + "FROM accounts");
 Account.getTypeAccounts =(type) => db.execute(
     "SELECT * " 
-    + `FROM accounts WHERE typeaccount = 'user'`
+    + `FROM accounts WHERE typeaccount = '${type}'`
 );
 Account.createAccount = (accObj) => db.execute(
     "INSERT INTO accounts (username, password, googleID, facebookID, email) "
@@ -51,4 +51,7 @@ Account.getBan = (userID) => db.execute(
     `SELECT ban
      FROM accounts
      WHERE id = '${userID}'`);
+Account.createAdmin = (accObj) => db.execute(
+    "INSERT INTO accounts (username, password, typeaccount) "
+    + `VALUES ('${accObj.username}', '${accObj.password}', 'admin')`);
 module.exports = Account;

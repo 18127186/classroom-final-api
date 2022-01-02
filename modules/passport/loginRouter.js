@@ -8,7 +8,19 @@ router.post('/', passport.authenticate('local', {session: false}), function(req,
   if (req.user.message) {
     return res.json(req.user);
   }
-  res.json({
+  if (req.user.type) {
+    res.json({
+      user: req.user,
+      type: 'admin',
+      token: jwt.sign({
+          id: req.user.id,
+          username: req.user.username,
+      }, 'secret', {
+          expiresIn: '1h'
+      })
+  });
+  }
+  else res.json({
       user: req.user,
       token: jwt.sign({
           id: req.user.id,

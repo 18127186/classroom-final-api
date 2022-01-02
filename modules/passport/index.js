@@ -12,7 +12,8 @@ passport.use(new LocalStrategy(
     if (acc) {
       if (acc.password == password) {   
         if (acc.ban != 1) {
-          return done(null, {id: acc.id, username: username});
+          if (acc.typeaccount == 'admin') return done(null, {id: acc.id, username: username, type: 'admin'})
+          else return done(null, {id: acc.id, username: username});
         }
         else return done(null, {message: 'banned'});
       }
