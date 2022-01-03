@@ -38,3 +38,16 @@ exports.lockAccount = async (userID) => {
 
 exports.adminAccount = () => accountsModel.getTypeAccounts('admin');
 exports.userAccount = () => accountsModel.getTypeAccounts('user');
+
+exports.createAdmin = (accObj) => accountsModel.createAdmin(accObj);
+exports.unmap = (accountID) => accountsModel.updateInfoForOneField('studentID', '', accountID);
+exports.mapping = async (accountID, studentID) => {
+    const result = await accountsModel.checkExistedByStudentId(studentID);
+
+    if (result.length === 0) {
+        await accountsModel.updateInfoForOneField('studentID', studentID , accountID);
+        return true;
+    } else {
+        return false
+    }
+}
