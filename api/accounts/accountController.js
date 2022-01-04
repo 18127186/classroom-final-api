@@ -136,21 +136,10 @@ exports.mappingStudentID = async (req,res) => {
         res.status(201).json({message: 'Unmap Success!'});
     }
     else {
-        console.log(req.body);
-        //const result = await accountService.mapping(req.body.accountID, req.body.studentID);
-        const result = await accountService.mapping(66, '18127186');
+        const result = await accountService.mapping(req.body.accountID, req.body.studentID);
         if (result) 
             res.status(201).json({message: 'Account updated!'});
-        else res.status(500).json({message: 'Student ID existed!'});
-        /*const result = await accountService.checkExistedByStudentId(req.body.studentID);
-
-        console.log(result)
-        if (result.length === 0) {
-            accountService.updateInfoForOneField('studentID', req.body.studentID , accountID);
-            res.status(201).json({message: 'Account updated!'});
-        } else {
-            res.status(500).json({message: 'Student ID existed!'});
-        }*/
+        else res.status(500).json({existed: 'Student ID existed!'});
     }
     
 }
