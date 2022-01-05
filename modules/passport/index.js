@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
       if (acc.password == password) {   
         if (acc.ban != 1) {
           if (acc.typeaccount == 'admin') return done(null, {id: acc.id, username: username, type: 'admin'})
-          else return done(null, {id: acc.id, username: username});
+          else return done(null, {id: acc.id, username: username, studentID: acc.studentID});
         }
         else return done(null, {message: 'banned'});
       }

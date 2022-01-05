@@ -24,3 +24,5 @@ exports.updateGrade = (gradeObj) => gradesModel.updateGrade(gradeObj);
 exports.addGrade = (gradeObj) => gradesModel.addGrade(gradeObj);
 
 exports.getListStudentGrades = (idAssign) => gradesModel.getListStudentGrades(idAssign);
+
+exports.getGrade = (student_id, assignment_id) => gradesModel.getGrade(student_id, assignment_id);

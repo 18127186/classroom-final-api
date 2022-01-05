@@ -70,11 +70,12 @@ exports.updateFromPhuoc = async function(req, res) {
         res.status(500).json({message: 'An Error Occur!', result: result2});
     }
 };
+
 exports.getRole = async (req, res) => {
     const userId = req.params.id;
     const classId = req.body.classId;
 
-    const result = await accountService.getRole(userId, classId);
+    const result = await accountService.getRole(classId, userId);
 
     if (result) {
         res.status(201).json(result);
@@ -83,6 +84,7 @@ exports.getRole = async (req, res) => {
         res.status(500).json({message: 'Error!'});
     }
 }
+
 exports.remove = async (req,res) => {
     const accountID = req.params.id;
     const result = await accountService.remove(accountID);

@@ -51,3 +51,7 @@ exports.mapping = async (accountID, studentID) => {
         return false
     }
 }
+
+exports.getStudentID = (idAcc) => {
+    return reviewsModel.getStudentID(idAcc);
+}

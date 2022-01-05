@@ -54,4 +54,10 @@ Account.getBan = (userID) => db.execute(
 Account.createAdmin = (accObj) => db.execute(
     "INSERT INTO accounts (username, password, typeaccount) "
     + `VALUES ('${accObj.username}', '${accObj.password}', 'admin')`);
+
+Account.getStudentID = (idAcc) => db.execute(
+    `SELECT studentID FROM accounts 
+    WHERE id = ${idAcc}`
+)
+
 module.exports = Account;
