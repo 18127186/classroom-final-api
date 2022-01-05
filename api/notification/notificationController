@@ -1,0 +1,77 @@
+const notificationService = require('./notificationService');
+const classService = require('../classes/classService');
+
+exports.getNoti = async (req, res) => {
+    const classesId = await classService.listId(req.user.id);
+
+    let listClass = "";
+    classesId.forEach((element, index) => {
+        if (index != 0) {
+            listClass += ",";
+        }
+        listClass += element.id;
+    });
+
+    console.log(listClass);
+
+    const notis = await notificationService.getNoti(req.user.id, listClass);
+    
+    console.log(notis);
+
+    if (notis) {
+        res.status(200).json(notis);
+    } else {
+        res.status(404).json({message: 'No notifications available!'});
+    }
+}
+
+exports.addNoti = async (type, userId, classId, target) => {
+    let content;
+
+    if (type == 0) {
+        content = " has finalized a grade composition!";
+    } else if (type == 1) {
+        content = "  replies to your grade review!";
+    } else if (type == 2) {
+        content = " has created a final decision on a mark review!";
+    } else if (type == 3) {
+        content = " requests a grade review!";
+    } else {
+        return;
+    }
+
+    if (type == 1) {
+        if (!target) {
+            return;
+        }
+
+        const notis = await notificationService.addNoti(userId, classId, content, target);
+
+        if (notis) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    if (type == 3) {
+        const TeachersId = await classService.listIdTeacher(classId);
+        const ListTeachersId = TeachersId.map((item) => item.id);
+
+        for (let i = 0; i < ListTeachersId.length; i ++) {
+            const notis = await notificationService.addNoti(userId, classId, content, element);
+
+            if (!notis) {
+                return false;
+            }
+        }
+    } else {
+        const notis = await notificationService.addNotiAll(userId, classId, content);
+
+        if (notis) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+}

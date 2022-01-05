@@ -1,5 +1,6 @@
 const reviewService = require('./reviewService');
 const Authorization = require('../../modules/authorization');
+const notificationController = require('../notification/notificationController');
 
 exports.getReviews = async (req, res) => {
     const isTeacher = await Authorization.teacherAuthority(req.user.id, req.params.idClass);
@@ -34,6 +35,8 @@ exports.updateGrade = async (req, res) => {
         const result = await reviewService.updateGrade(req.body.update_grade, req.params.idReview);
 
         if (result) {
+            notificationController.addNoti(1, req.user.id, req.params.idClass, req.body.studentId);
+
             res.status(200).json({message: 'Update successfully!'});
         } else {
             res.status(404).json({message: 'Fail!'});

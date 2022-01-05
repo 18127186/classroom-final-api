@@ -1,6 +1,11 @@
 const classesModel = require('./classModel');
 
 exports.list = (userId) => classesModel.getClassesByUserId(userId);
+
+exports.listId = (userId) => classesModel.getClassesIdByUserId(userId);
+
+exports.listIdTeachers = (idClass) => classesModel.getIdTeachersByClassId(idClass);
+
 exports.create = (name, userId, description) => classesModel.addClass(name, userId, description);
 
 exports.detail = (classId, callback) => classesModel.getClasses().then(function(results) {

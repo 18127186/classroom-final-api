@@ -11,6 +11,18 @@ exports.getClassesByUserId = (userId) => db.execute(
             JOIN accounts as C ON C.id = A.creator 
         WHERE B.id_account = '${userId}'`);
 
+exports.getIdTeachersByClassId = (idClass) => db.execute(
+    `SELECT A.id
+        FROM class_accounts
+        WHERE B.id_class = '${idClass}'`);
+        
+exports.getClassesIdByUserId = (userId) => db.execute(
+    `SELECT A.id
+        FROM classes as A 
+            JOIN class_accounts as B ON A.id = B.id_class 
+            JOIN accounts as C ON C.id = A.creator 
+        WHERE B.id_account = '${userId}'`);
+
 exports.addClass = (name, userId, description) => db.execute(
     "INSERT INTO classes (name, creator, description) "
     + `VALUES ('${name}', '${userId}', '${description}')`);
