@@ -83,3 +83,12 @@ exports.uploadGrades = async (req, res) => {
         res.status(200).json({message: "Grades updated!"});
     }
 }
+
+exports.getGrade = async function(req, res) {   
+    const result = await gradeService.getGrade(req.params.studentID, req.params.idAssign);
+    if (result) {
+        res.status(200).json(result);
+    } else {
+        res.status(404).json({message: 'failed!'});
+    }
+}

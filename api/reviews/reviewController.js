@@ -5,7 +5,13 @@ const notificationController = require('../notification/notificationController')
 exports.getReviews = async (req, res) => {
     const isTeacher = await Authorization.teacherAuthority(req.user.id, req.params.idClass);
     if (!isTeacher){
-        res.status(404).json({message: "Authorization Secure Error!"});
+        const ListReviews = await reviewService.getListReviewsForStudent(req.params.idClass, req.params.studentID);
+
+        if (ListReviews) {
+            res.status(200).json(ListReviews);
+        } else {
+            res.status(404).json({message: 'Fail!'});
+    }
     } else {
         const ListReviews = await reviewService.getListReviews(req.params.idClass);
 
@@ -14,6 +20,16 @@ exports.getReviews = async (req, res) => {
         } else {
             res.status(404).json({message: 'Fail!'});
         }
+    }
+}
+
+exports.getListReviewsForStudent = async (req, res) => {
+    const ListReviews = await reviewService.getListReviewsForStudent(req.params.idClass, req.params.studentID);
+
+    if (ListReviews) {
+        res.status(200).json(ListReviews);
+    } else {
+        res.status(404).json({message: 'Fail!'});
     }
 }
 
@@ -41,5 +57,23 @@ exports.updateGrade = async (req, res) => {
         } else {
             res.status(404).json({message: 'Fail!'});
         }
+    }
+}
+
+exports.createReview = async (req, res) => {
+    const reviewObj = {
+        assign_id: req.body.assign_id,
+        student_id: req.body.student_id,
+        expect_grade: req.body.expect_grade,
+        explanation: req.body.explanation,
+        current_grade: req.body.current_grade
+    }
+
+    const result = await reviewService.createReview(reviewObj);
+
+    if (result) {
+        res.status(200).json({message: 'Create successfully!'});
+    } else {
+        res.status(404).json({message: 'Fail!'});
     }
 }

@@ -57,3 +57,9 @@ exports.getListStudentGrades = (idAssign) => db.execute(
      FROM grades 
      WHERE assignment_id = '${idAssign}'`
 );
+
+exports.getGrade = (student_id, assignment_id) => db.execute(
+    `SELECT grade
+     FROM grades 
+     WHERE assignment_id = '${assignment_id}' and student_id = '${student_id}'`
+)
