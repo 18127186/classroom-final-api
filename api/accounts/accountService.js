@@ -53,5 +53,7 @@ exports.mapping = async (accountID, studentID) => {
 }
 
 exports.getStudentID = (idAcc) => {
-    return reviewsModel.getStudentID(idAcc);
+    return accountsModel.getStudentID(idAcc);
 }
+
+exports.getAccountIdbyStudentID = (studentId) => accountsModel.getAccountIdbyStudentID(studentId);

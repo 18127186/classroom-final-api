@@ -12,9 +12,9 @@ exports.getClassesByUserId = (userId) => db.execute(
         WHERE B.id_account = '${userId}'`);
 
 exports.getIdTeachersByClassId = (idClass) => db.execute(
-    `SELECT A.id
+    `SELECT id_account
         FROM class_accounts
-        WHERE B.id_class = '${idClass}'`);
+        WHERE id_class = '${idClass}' AND role = 'teacher'`);
         
 exports.getClassesIdByUserId = (userId) => db.execute(
     `SELECT A.id

@@ -51,7 +51,8 @@ exports.updateGrade = async (req, res) => {
         const result = await reviewService.updateGrade(req.body.update_grade, req.params.idReview);
 
         if (result) {
-            notificationController.addNoti(1, req.user.id, req.params.idClass, req.body.studentId);
+            var link = "classes/grade-reviews/detail/" + result.idClass + "/" + req.params.idReview;
+            notificationController.addNoti(1, req.user.id, req.params.idClass, req.body.studentId, link);
 
             res.status(200).json({message: 'Update successfully!'});
         } else {
@@ -72,6 +73,9 @@ exports.createReview = async (req, res) => {
     const result = await reviewService.createReview(reviewObj);
 
     if (result) {
+        var link = "classes/grade-reviews/detail/" + req.body.id_class + "/" + result.insertId;
+        notificationController.addNoti(3, req.user.id, req.body.id_class, null, link);
+
         res.status(200).json({message: 'Create successfully!'});
     } else {
         res.status(404).json({message: 'Fail!'});

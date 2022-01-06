@@ -60,4 +60,10 @@ Account.getStudentID = (idAcc) => db.execute(
     WHERE id = ${idAcc}`
 )
 
+Account.getAccountIdbyStudentID = (studentId) => db.execute(
+    `SELECT id
+     FROM accounts 
+     WHERE studentID = ${studentId}`
+)
+
 module.exports = Account;
