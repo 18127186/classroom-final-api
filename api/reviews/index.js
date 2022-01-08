@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 const reviewController = require('./reviewController');
 
-router.get('/:idClass/:studentID', reviewController.getReviews);
+router.get('/getReviews/:idClass/:studentID', reviewController.getReviews);
 router.get('/for-student/:idClass/:idStudent', reviewController.getListReviewsForStudent);
-router.get('/detail/:idClass/:idReview', reviewController.getReviewDetail);
+router.get('/detail/:idReview', reviewController.getReviewDetail);
+router.get('/comments/:reviewId', reviewController.getCmts);
 
 router.post('/update/:idClass/:idReview', reviewController.updateGrade);
 router.post('/create', reviewController.createReview);
+router.post('/addCmt', reviewController.createCmt);
 
 module.exports = router;

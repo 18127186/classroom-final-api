@@ -81,3 +81,29 @@ exports.createReview = async (req, res) => {
         res.status(404).json({message: 'Fail!'});
     }
 }
+
+exports.getCmts = async (req, res) => {
+    const cmts = await reviewService.getCmts(req.params.reviewId);
+
+    if (cmts) {
+        res.status(200).json(cmts);
+    } else {
+        res.status(404).json({message: 'There is no cmt!'});
+    }
+}
+
+exports.createCmt = async (req, res) => {
+    const cmtObj = {
+        review_id: req.body.review_id,
+        account_id: req.body.account_id,
+        content: req.body.content
+    }
+
+    const result = await reviewService.createCmt(cmtObj);
+
+    if (result) {
+        res.status(200).json({message: 'Comment successfully!'});
+    } else {
+        res.status(404).json({message: 'Fail!'});
+    }
+}

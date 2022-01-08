@@ -19,3 +19,11 @@ exports.updateGrade = (update_grade, id) => {
 exports.createReview = (reviewObj) => {
     return reviewsModel.createReview(reviewObj);
 }
+
+exports.getCmts = (review_id) => {
+    return reviewsModel.getCmts(review_id);
+}
+
+exports.createCmt = (cmtObj) => {
+    return reviewsModel.createCmt(cmtObj);
+}

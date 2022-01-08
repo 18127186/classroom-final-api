@@ -31,3 +31,15 @@ exports.createReview = (reviewObj) => db.execute(
     `INSERT INTO reviews (assign_id, student_id, expect_grade, explanation, current_grade) 
     VALUES ('${reviewObj.assign_id}', '${reviewObj.student_id}', '${reviewObj.expect_grade}', '${reviewObj.explanation}', '${reviewObj.current_grade}');`
 )
+
+exports.getCmts = (id_review) => db.execute(
+    `SELECT a.id, a.review_id, a.account_id, a.content, b.name 
+    FROM comments as a JOIN accounts as b 
+    ON a.account_id = b.id 
+    WHERE a.review_id = ${id_review};`
+)
+
+exports.createCmt = (cmtObj) => db.execute(
+    `INSERT INTO comments (review_id, account_id, content) 
+    VALUES ('${cmtObj.review_id}', '${cmtObj.account_id}', '${cmtObj.content}');`
+)
