@@ -2,8 +2,13 @@ const db = require("../../database");
 
 exports.getAssignment = (classID) => db.execute(
     "SELECT *" 
-    + `FROM assignments WHERE assignments.class_id = '${classID}' ORDER BY rank`);
+    + `FROM assignments WHERE class_id = '${classID}' ORDER BY rank`);
     
+
+exports.getAssignById = (idAssign) => db.execute(
+    "SELECT *" 
+    + "FROM assignments "
+    + `WHERE id = '${idAssign}'`);
 
 exports.createAssignment = (assignObj) => db.execute(
     `INSERT INTO assignments (class_id, topic, description, creator, deadline, grade)  

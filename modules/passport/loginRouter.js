@@ -15,6 +15,7 @@ router.post('/', passport.authenticate('local', {session: false}), function(req,
       token: jwt.sign({
           id: req.user.id,
           username: req.user.username,
+          studentID: req.user.studentID
       }, 'secret', {
           expiresIn: '1h'
       })
@@ -25,6 +26,7 @@ router.post('/', passport.authenticate('local', {session: false}), function(req,
       token: jwt.sign({
           id: req.user.id,
           username: req.user.username,
+          studentID: req.user.studentID
       }, 'secret', {
           expiresIn: '1h'
       })

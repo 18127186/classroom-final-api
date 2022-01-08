@@ -1,4 +1,5 @@
 const assignmentService = require('./assignmentService');
+const gradeService = require('../grades/gradesService');
 const Authorization = require('../../modules/authorization');
 
 exports.list = async function(req, res) {
@@ -6,6 +7,25 @@ exports.list = async function(req, res) {
 
     if (assignment) {
         res.status(200).json(assignment);
+    } else {
+        res.status(404).json({message: 'No assignment available!'});
+    }
+};
+
+exports.getAssign = async function(req, res) {
+    console.log(req.user);
+    const assignment = await assignmentService.getAssignById(req.params.idAssign);
+
+    if (assignment[0]) {
+        const point = await gradeService.getGrade(req.user.studentID, req.params.idAssign);
+
+        if (point.length > 0){
+            assignment[0]["point"] = point[0].grade;
+        } else {
+            assignment[0]["point"] = "";
+        }
+
+        res.status(200).json(assignment[0]);
     } else {
         res.status(404).json({message: 'No assignment available!'});
     }
