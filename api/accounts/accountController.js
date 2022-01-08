@@ -130,9 +130,8 @@ exports.createAdmin = async (req,res) => {
 }
 exports.mappingStudentID = async (req,res) => {
     const accountID = req.body.accountID;
-    console.log(accountID);
     const acc = await accountService.getInfoByUserId(accountID);
-    console.log(acc);
+
     if (acc[0].studentID) {
         const result = await accountService.unmap(accountID);
         res.status(201).json({message: 'Unmap Success!'});

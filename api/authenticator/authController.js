@@ -7,7 +7,6 @@ exports.googleSignIn = async (req,res,next) => {
 
 exports.facebookSignIn = async (req,res,next) => {
     await authService.facebookSignIn(req.body.id_token, (passport) => {
-        console.log(passport);
         res.json(passport);
     });
 }

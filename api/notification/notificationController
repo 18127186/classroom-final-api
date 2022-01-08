@@ -3,24 +3,24 @@ const classService = require('../classes/classService');
 const accountService = require('../accounts/accountService');
 
 exports.getNoti = async (req, res) => {
-    const classesId = await classService.listId(req.user.id);
+    const classesId = await classService.list(req.user.id);
 
-    let listClass = "";
-    classesId.forEach((element, index) => {
-        if (index != 0) {
-            listClass += ",";
+    if (classesId.length > 0) {
+        let listClass = "";
+        classesId.forEach((element, index) => {
+            if (index != 0) {
+                listClass += ",";
+            }
+            listClass += element.id;
+        });
+
+        const notis = await notificationService.getNoti(req.user.id, listClass);
+
+        if (notis) {
+            res.status(200).json(notis);
+        } else {
+            res.status(404).json({message: 'No notifications available!'});
         }
-        listClass += element.id;
-    });
-
-    console.log(listClass);
-
-    const notis = await notificationService.getNoti(req.user.id, listClass);
-    
-    console.log(notis);
-
-    if (notis) {
-        res.status(200).json(notis);
     } else {
         res.status(404).json({message: 'No notifications available!'});
     }

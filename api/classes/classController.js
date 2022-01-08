@@ -1,8 +1,11 @@
 const classService = require('./classService');
 const classMemberService = require('./classMemberService');
+const invitationService = require('../invitation/invitationService'); 
 const Authorization = require('../../modules/authorization');
 const jwt_decode = require('jwt-decode');
 const jwt = require('jsonwebtoken');
+
+
 exports.list = async function(req, res) {
     const classes = await classService.list(req.user.id);
 
@@ -27,22 +30,47 @@ exports.detail = function(req,res) {
 }
 exports.inviteLink = async function(req,res) {
     const id = req.params.id;
-    const role = req.params.role;
-    const classes = await classService.list(id);
+    const classes = await classService.listIdTeachers(id);
 
-    if (classes) {
-        const token= jwt.sign({
-            id: id,
-            role: role
-        }, 'secret', {
-            expiresIn: '24h'
-        })
-        let url = 'https://best-classroom-ever.herokuapp.com/classes/acceptlink/'+ token;
-        res.status(200).json(url);
+     if (classes.length > 0) {
+        const invitation = await invitationService.getInvitationByIdClass(id);
+        if (invitation.length > 0) {
+            res.status(200).json(invitation[0]);
+        } else {
+            const teacherIToken = 'https://best-classroom-ever.herokuapp.com/classes/acceptlink/' + jwt.sign({
+                id: id,
+                role: 'teacher'
+            }, 'secret')
+
+            const studentIToken = 'https://best-classroom-ever.herokuapp.com/classes/acceptlink/' + jwt.sign({
+                id: id,
+                role: 'student'
+            }, 'secret')
+    
+            const teacherICode = invitationService.getCodeFromToken();
+            const studentICode = invitationService.getCodeFromToken();
+            
+            const invitation = {
+                class_id: id,
+                teacher_iToken: teacherIToken,
+                student_iToken: studentIToken,
+                teacher_iCode: teacherICode,
+                student_iCode: studentICode
+            }
+
+            const result = invitationService.addInvitation(invitation);
+
+            if (result) {
+                res.status(200).json(result);
+            } else {
+                res.status(404).json({message: 'An error occurred!'});
+            }
+        }
     } else {
         res.status(404).json({message: 'No classes available!'});
     }
 }
+
 exports.create = async function(req, res) {
     const userRoll = "teacher";
     const createClassResult =  await classService.create(req.body.name, req.user.id, req.body.description);
@@ -85,11 +113,43 @@ exports.acceptlink = async function(req,res) {
     const exist = await classMemberService.findOneAcc(payloadIDAcc.id, payloadidclass.id);
     if (exist.length <= 0 && payloadIDAcc.username !== "root") {
         await classMemberService.addClassMember(payloadidclass.id,payloadIDAcc.id,payloadidclass.role);
-        return res.json("success");
+        res.json("success");
     } else {
         res.json("Account Exists in class");
     }
     
+}
+
+exports.acceptInviteCode = async function(req,res) {
+    const inviteCode = req.body.inviteCode;
+    let invitation = await invitationService.getInvitationByCode(inviteCode);
+    invitation = invitation[0];
+    if (invitation) {
+        let token;
+        if (inviteCode == invitation.student_iCode) {
+            token = invitation.student_iToken;
+        } else {
+            token = invitation.teacher_iToken;
+        }
+
+        token = token.replace("https://best-classroom-ever.herokuapp.com/classes/acceptlink/", "");
+        let payloadInviteCode = jwt_decode(token);
+
+        const exist = await classMemberService.findOneAcc(req.user.id, payloadInviteCode.id);
+        if (exist.length <= 0 && req.user.username !== "root") {
+            const result = await classMemberService.addClassMember(payloadInviteCode.id, req.user.id, payloadInviteCode.role);
+            if (result) {
+                res.status(201).json("Join success");
+            } else {
+                res.status(404).json("Join fail");
+            }
+        } else {
+            res.status(404).json("Account Exists in class");
+        }
+
+    } else {
+        res.status(404).json("Class does not exists");
+    }
 }
 
 exports.addListStudent = async function(req,res) {

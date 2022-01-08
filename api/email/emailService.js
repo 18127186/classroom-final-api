@@ -31,7 +31,6 @@ exports.sendEmail = async (recipient, invitelink, role) => {
 
     await transporter.sendMail(Options, (err, info) => {
         if (err) {
-            console.log(err);
             result = false;
         }
     });

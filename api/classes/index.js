@@ -8,10 +8,11 @@ router.get('/', classController.list);
 
 /* POST create class. */
 router.post('/', classController.create);
+router.post('/acceptInviteCode',classController.acceptInviteCode);
 
 /* GET detail class. */
 router.get('/detail/:id', classController.detail);
-router.get('/invitelink/:id/:role', classController.inviteLink);
+router.get('/invitelink/:id', classController.inviteLink);
 
 router.get('/members/:id', classController.getMember);
 router.post('/uploadListStudent/:idClass', classController.addListStudent);
