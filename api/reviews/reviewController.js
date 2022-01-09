@@ -5,7 +5,7 @@ const notificationController = require('../notification/notificationController')
 exports.getReviews = async (req, res) => {
     const isTeacher = await Authorization.teacherAuthority(req.user.id, req.params.idClass);
     if (!isTeacher){
-        const ListReviews = await reviewService.getListReviewsForStudent(req.params.idClass, req.params.studentID);
+        const ListReviews = await reviewService.getListReviewsForStudent(req.params.idClass, req.user.studentID);
 
         if (ListReviews) {
             res.status(200).json(ListReviews);
@@ -24,7 +24,7 @@ exports.getReviews = async (req, res) => {
 }
 
 exports.getListReviewsForStudent = async (req, res) => {
-    const ListReviews = await reviewService.getListReviewsForStudent(req.params.idClass, req.params.studentID);
+    const ListReviews = await reviewService.getListReviewsForStudent(req.params.idClass, req.user.studentID);
 
     if (ListReviews) {
         res.status(200).json(ListReviews);
@@ -44,12 +44,21 @@ exports.getReviewDetail = async (req, res) => {
 }
 
 exports.updateGrade = async (req, res) => {
+    console.log("ok", req.body.update_grade);
     const isTeacher = await Authorization.teacherAuthority(req.user.id, req.params.idClass);
     if (!isTeacher){
         res.status(404).json({message: "Authorization Secure Error!"});
     } else {
         const result = await reviewService.updateGrade(req.body.update_grade, req.params.idReview);
-
+        if (req.body.update_grade) {
+            const gradeObj = {
+                grade: req.body.update_grade,
+                assignment_id: req.body.assignment_id,
+                student_id: req.body.studentId
+            }
+            console.log(gradeObj);
+            await reviewService.updateRealGrade(gradeObj);
+        }
         if (result) {
             var link = "classes/grade-reviews/detail/" + result.idClass + "/" + req.params.idReview;
             notificationController.addNoti(1, req.user.id, req.params.idClass, req.body.studentId, link);
@@ -64,7 +73,7 @@ exports.updateGrade = async (req, res) => {
 exports.createReview = async (req, res) => {
     const reviewObj = {
         assign_id: req.body.assign_id,
-        student_id: req.body.student_id,
+        student_id: req.user.studentID,
         expect_grade: req.body.expect_grade,
         explanation: req.body.explanation,
         current_grade: req.body.current_grade
@@ -95,7 +104,7 @@ exports.getCmts = async (req, res) => {
 exports.createCmt = async (req, res) => {
     const cmtObj = {
         review_id: req.body.review_id,
-        account_id: req.body.account_id,
+        account_id: req.user.id,
         content: req.body.content
     }
 

@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const reviewController = require('./reviewController');
 
-router.get('/getReviews/:idClass/:studentID', reviewController.getReviews);
-router.get('/for-student/:idClass/:idStudent', reviewController.getListReviewsForStudent);
+router.get('/getReviews/:idClass', reviewController.getReviews);
+router.get('/for-student/:idClass', reviewController.getListReviewsForStudent);
 router.get('/detail/:idReview', reviewController.getReviewDetail);
 router.get('/comments/:reviewId', reviewController.getCmts);
 

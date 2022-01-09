@@ -43,3 +43,9 @@ exports.createCmt = (cmtObj) => db.execute(
     `INSERT INTO comments (review_id, account_id, content) 
     VALUES ('${cmtObj.review_id}', '${cmtObj.account_id}', '${cmtObj.content}');`
 )
+
+exports.updateRealGrade= (gradeObj) => db.execute(
+    `UPDATE grades
+     SET grade ='${gradeObj.grade}'
+     WHERE assignment_id = '${gradeObj.assignment_id}' and student_id = ${gradeObj.student_id}`
+);

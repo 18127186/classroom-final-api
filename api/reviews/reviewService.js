@@ -27,3 +27,5 @@ exports.getCmts = (review_id) => {
 exports.createCmt = (cmtObj) => {
     return reviewsModel.createCmt(cmtObj);
 }
+
+exports.updateRealGrade = (gradeObj) => reviewsModel.updateRealGrade(gradeObj);
