@@ -1,12 +1,12 @@
 const db = require("../../database");
 
 exports.getAssignment = (classID) => db.execute(
-    "SELECT *" 
+    "SELECT * " 
     + `FROM assignments WHERE class_id = '${classID}' ORDER BY rank`);
     
 
 exports.getAssignById = (idAssign) => db.execute(
-    "SELECT *" 
+    "SELECT * " 
     + "FROM assignments "
     + `WHERE id = '${idAssign}'`);
 
@@ -39,3 +39,9 @@ exports.updateRank = (listAssign) => {
     }
     return true;
 }
+
+exports.markFinal = (idAssign) => db.execute(
+    `UPDATE assignments 
+    SET finished = 1  
+    WHERE id = '${idAssign}';`
+);

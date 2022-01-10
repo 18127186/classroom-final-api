@@ -128,12 +128,12 @@ exports.createCmt = async (req, res) => {
     }
 }
 
-exports.finalReview = async(req, res) => {
+exports.markFinalReview = async(req, res) => {
     const idRew = req.body.idRew;
     const assignment = await assignmentService.markFinal(idRew);
     
     if (assignment) {
-        res.status(200).json(assignment);
+        res.status(200).json({message: 'Success!'});
     } else {
         res.status(404).json({message: 'Error!'});
     }

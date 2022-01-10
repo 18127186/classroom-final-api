@@ -11,3 +11,5 @@ exports.deleteAssignment = (idAssign) => assignmentModel.deleteAssignment(idAssi
 exports.updateAssignment = (assignObj) => assignmentModel.updateAssignment(assignObj);
 
 exports.updateRank = (listAssign) => assignmentModel.updateRank(listAssign);
+
+exports.markFinalAssign = (idAssign) => assignmentModel.markFinal(idAssign);

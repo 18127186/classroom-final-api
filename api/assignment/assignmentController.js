@@ -1,6 +1,7 @@
 const assignmentService = require('./assignmentService');
 const gradeService = require('../grades/gradesService');
 const Authorization = require('../../modules/authorization');
+const notificationController = require('../notification/notificationController');
 
 exports.list = async function(req, res) {
     const assignment = await assignmentService.list(req.params.idClass);
@@ -111,11 +112,16 @@ exports.updateRank = async (req, res) => {
     }
 }
 
-exports.finalAssignment = async(req, res) => {
-    const idAss = req.body.idAss;
-    const assignment = await assignmentService.markFinal(idAss);
+exports.markFinalAssign = async(req, res) => {
+    console.log()
+    const idAssign = req.params.idAssign;
+    const idClass = req.params.idClass;
+    const assignment = await assignmentService.markFinalAssign(idAssign);
     
     if (assignment) {
+        var link = "classes/detail/"+ idClass + "/assignment/" + idAssign;
+        notificationController.addNoti(0, req.user.id, req.params.idClass, null, link);
+
         res.status(200).json(assignment);
     } else {
         res.status(404).json({message: 'Update rank failed!'});
