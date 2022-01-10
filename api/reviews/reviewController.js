@@ -78,16 +78,21 @@ exports.createReview = async (req, res) => {
         explanation: req.body.explanation,
         current_grade: req.body.current_grade
     }
-
     const result = await reviewService.createReview(reviewObj);
 
     if (result) {
-        var link = "classes/grade-reviews/detail/" + req.body.id_class + "/" + result.insertId;
-        notificationController.addNoti(3, req.user.id, req.body.id_class, null, link);
+        const result = await reviewService.createReview(reviewObj);
 
-        res.status(200).json({message: 'Create successfully!'});
+        if (result) {
+            var link = "classes/grade-reviews/detail/" + req.body.id_class + "/" + result.insertId;
+            notificationController.addNoti(3, req.user.id, req.body.id_class, null, link);
+    
+            res.status(200).json({message: 'Create successfully!'});
+        } else {
+            res.status(404).json({message: 'Add Fail!'});
+        }
     } else {
-        res.status(404).json({message: 'Fail!'});
+        res.status(404).json({message: 'Review exist!'});
     }
 }
 
@@ -105,14 +110,31 @@ exports.createCmt = async (req, res) => {
     const cmtObj = {
         review_id: req.body.review_id,
         account_id: req.user.id,
-        content: req.body.content
+        content: req.body.content,
+        role: role
     }
 
     const result = await reviewService.createCmt(cmtObj);
 
     if (result) {
+        if (cmtObj.role == "teacher") {
+            var link = "classes/grade-reviews/detail/" + result.idClass + "/" + req.params.idReview;
+            notificationController.addNoti(1, req.user.id, req.params.idClass, req.body.target, link);
+        }
+
         res.status(200).json({message: 'Comment successfully!'});
     } else {
         res.status(404).json({message: 'Fail!'});
+    }
+}
+
+exports.finalReview = async(req, res) => {
+    const idRew = req.body.idRew;
+    const assignment = await assignmentService.markFinal(idRew);
+    
+    if (assignment) {
+        res.status(200).json(assignment);
+    } else {
+        res.status(404).json({message: 'Error!'});
     }
 }

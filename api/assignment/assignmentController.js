@@ -110,3 +110,14 @@ exports.updateRank = async (req, res) => {
         }
     }
 }
+
+exports.finalAssignment = async(req, res) => {
+    const idAss = req.body.idAss;
+    const assignment = await assignmentService.markFinal(idAss);
+    
+    if (assignment) {
+        res.status(200).json(assignment);
+    } else {
+        res.status(404).json({message: 'Update rank failed!'});
+    }
+}

@@ -65,22 +65,26 @@ exports.uploadGrades = async (req, res) => {
     if (!isTeacher){
         res.status(404).json({message: "Authorization Secure Error!"});
     } else {
-
-        for (let i = 0; i < req.body.listGrades.length; i ++) {
-            const gradeObj = {
-                assignment_id: req.params.idAssign,
-                student_id: req.body.listGrades[i].id,
-                grade: req.body.listGrades[i].grade
+        try {
+            for (let i = 0; i < req.body.listGrades.length; i ++) {
+                const gradeObj = {
+                    assignment_id: req.params.idAssign,
+                    student_id: req.body.listGrades[i].id,
+                    grade: req.body.listGrades[i].grade
+                }
+    
+                const result = await gradeService.updateGrade(gradeObj);
+    
+                if (result.affectedRows === 0) {
+                    await gradeService.addGrade(gradeObj);
+                }
             }
-
-            const result = await gradeService.updateGrade(gradeObj);
-
-            if (result.affectedRows === 0) {
-                await gradeService.addGrade(gradeObj);
-            }
+    
+            res.status(200).json({message: "Grades updated!"});
+        } catch {
+            res.status(400).json({message: "Input has problem!"});
         }
 
-        res.status(200).json({message: "Grades updated!"});
     }
 }
 
