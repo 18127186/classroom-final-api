@@ -47,9 +47,9 @@ exports.inviteLink = async function(req,res) {
                 role: 'student'
             }, 'secret')
     
-            const teacherICode = invitationService.getCodeFromToken();
-            const studentICode = invitationService.getCodeFromToken();
-            
+            const teacherICode = invitationService.getCodeFromToken('teacher');
+            const studentICode = invitationService.getCodeFromToken('student');
+
             const invitation = {
                 class_id: id,
                 teacher_iToken: teacherIToken,

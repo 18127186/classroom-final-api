@@ -6,7 +6,7 @@ exports.getInvitationByCode = (classId) => invitationModel.getInvitationByCode(c
 
 exports.addInvitation = (invitation) => invitationModel.addInvitation(invitation);
 
-exports.getCodeFromToken = () => {
+exports.getCodeFromToken = (role) => {
     const now = Date.now(); 
 
     let cur = now;
@@ -20,6 +20,20 @@ exports.getCodeFromToken = () => {
 
     while (token.length < 13) {
         token += "A";
+    }
+
+    if (role == 'teacher') {
+        let Str = role.toUpperCase();
+        for (let i = 0; i < Str.length; i++) {
+            let rand = Math.floor(Math.random() * 13);
+            token = token.slice(0, rand) + Str[i] + token.slice(rand);
+        } 
+    } else {
+        let Str = role.toUpperCase();
+        for (let i = 0; i < Str.length; i++) {
+            let rand = Math.floor(Math.random() * 13);
+            token = token.slice(0, rand) + Str[i] + token.slice(rand);
+        } 
     }
 
     return token;

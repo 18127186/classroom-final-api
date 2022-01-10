@@ -6,7 +6,10 @@ exports.teacherAuthority = async(userId, idClass) => {
     }
 
     const result = await accountService.isTeacherOfCLass(userId, idClass);
-
-    return (result[0].role === "teacher");
+    if (result[0]) {
+        return (result[0].role === "teacher");
+    } else {
+        return false;
+    }
 };
 
