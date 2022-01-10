@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
       if (acc.password == password) {   
         if (acc.ban != 1) {
           if (acc.typeaccount == 'admin') return done(null, {id: acc.id, username: username, type: 'admin'})
-          else return done(null, {id: acc.id, username: username, studentID: acc.studentID});
+          else return done(null, {id: acc.id, username: username, studentID: acc.studentID, email: acc.email});
         }
         else return done(null, {message: 'banned'});
       }
@@ -27,7 +27,7 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = 'secret';
 
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    return done(null, {id: jwt_payload.id, username: jwt_payload.username, studentID: jwt_payload.studentID}) // req.user
+    return done(null, {id: jwt_payload.id, username: jwt_payload.username, studentID: jwt_payload.studentID, email: jwt_payload.email}) // req.user
 }));
 
 module.exports = passport;

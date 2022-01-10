@@ -18,7 +18,6 @@ var transporter =  nodemailer.createTransport({ // config mail server
 });
 
 
-
 exports.sendEmail = async (recipient, invitelink, role) => {
     var result = true;
     var Options = {
@@ -27,6 +26,26 @@ exports.sendEmail = async (recipient, invitelink, role) => {
         subject: "[CLASS INVITATION]", // Subject line
         text: 'You are invited to this class as a ' + role + ': ' + invitelink, // plain text body
         //html: "<b>Hello world?</b>", // html body
+    }
+
+    await transporter.sendMail(Options, (err, info) => {
+        if (err) {
+            result = false;
+        }
+    });
+
+    return result;
+    
+}
+
+exports.sendVerifyEmail = async (recipient, code) => {
+    var result = true;
+    console.log(recipient);
+    var Options = {
+        from: '"CLASSROOM" bestlophoc@gmail.com', // sender address
+        to: recipient, // list of receivers
+        subject: "[CLASSROOM VERIFY]", // Subject line
+        text: 'Your verify code: ' + code, // plain text body
     }
 
     await transporter.sendMail(Options, (err, info) => {

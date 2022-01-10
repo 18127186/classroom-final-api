@@ -78,9 +78,9 @@ exports.createReview = async (req, res) => {
         explanation: req.body.explanation,
         current_grade: req.body.current_grade
     }
-    const result = await reviewService.createReview(reviewObj);
-
-    if (result) {
+    const isExisted = await reviewService.checkReviewExist(req.body.assign_id, req.user.studentID);
+        
+    if (isExisted.length <= 0) {
         const result = await reviewService.createReview(reviewObj);
 
         if (result) {
@@ -133,6 +133,9 @@ exports.finalReview = async(req, res) => {
     const result = await reviewService.markFinal(id_review);
     
     if (result) {
+        var link = "classes/grade-reviews/detail/" + result.idClass + "/" + req.params.idReview;
+        notificationController.addNoti(2, req.user.id, req.params.idClass, req.body.studentId, link);
+
         res.status(200).json({message: 'Mark final successfully!'});
     } else {
         res.status(404).json({message: 'Error!'});

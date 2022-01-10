@@ -66,4 +66,12 @@ Account.getAccountIdbyStudentID = (studentId) => db.execute(
      WHERE studentID = ${studentId}`
 )
 
+Account.setMail = (userId, mail) => db.execute(
+    `UPDATE accounts
+     SET email = '${mail}'
+     WHERE id = ${userId}`
+)
+
+
+
 module.exports = Account;

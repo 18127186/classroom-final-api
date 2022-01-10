@@ -57,3 +57,5 @@ exports.getStudentID = (idAcc) => {
 }
 
 exports.getAccountIdbyStudentID = (studentId) => accountsModel.getAccountIdbyStudentID(studentId);
+
+exports.setMail = (userId, mail) => accountsModel.setMail(userId, mail);

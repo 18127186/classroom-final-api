@@ -44,7 +44,7 @@ exports.addNoti = async (type, userId, classId, target, link) => {
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + " " + today.getDate() + '/' + (today.getMonth() + 1) + today.getFullYear();
 
-    if (type == 1) {
+    if (type == 1 || type == 2) {
         if (!target) {
             return;
         }

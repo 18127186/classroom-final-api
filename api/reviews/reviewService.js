@@ -31,3 +31,5 @@ exports.createCmt = (cmtObj) => {
 exports.updateRealGrade = (gradeObj) => reviewsModel.updateRealGrade(gradeObj);
 
 exports.markFinal = (id_review) => reviewsModel.markFinal(id_review);
+
+exports.checkReviewExist = (assignId, studentID) => reviewsModel.checkReviewExist(assignId, studentID);

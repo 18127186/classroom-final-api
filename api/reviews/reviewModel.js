@@ -55,3 +55,9 @@ exports.markFinal = (id_review) => db.execute(
     SET done = '1' 
     WHERE (id = '${id_review}');`
 )
+
+exports.checkReviewExist = (assignId, studentID) => db.execute(
+    `SELECT *
+    FROM reviews 
+    WHERE assign_id = '${assignId}' AND student_id = '${studentID}'`
+)
