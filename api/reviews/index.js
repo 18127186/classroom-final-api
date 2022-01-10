@@ -10,5 +10,6 @@ router.get('/comments/:reviewId', reviewController.getCmts);
 router.post('/update/:idClass/:idReview', reviewController.updateGrade);
 router.post('/create', reviewController.createReview);
 router.post('/addCmt', reviewController.createCmt);
+router.post('/mark-final', reviewController.finalReview);
 
 module.exports = router;

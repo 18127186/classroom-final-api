@@ -29,3 +29,5 @@ exports.createCmt = (cmtObj) => {
 }
 
 exports.updateRealGrade = (gradeObj) => reviewsModel.updateRealGrade(gradeObj);
+
+exports.markFinal = (id_review) => reviewsModel.markFinal(id_review);

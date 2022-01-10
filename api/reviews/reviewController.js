@@ -129,11 +129,11 @@ exports.createCmt = async (req, res) => {
 }
 
 exports.finalReview = async(req, res) => {
-    const idRew = req.body.idRew;
-    const assignment = await assignmentService.markFinal(idRew);
+    const id_review = req.body.id_review;
+    const result = await reviewService.markFinal(id_review);
     
-    if (assignment) {
-        res.status(200).json(assignment);
+    if (result) {
+        res.status(200).json({message: 'Mark final successfully!'});
     } else {
         res.status(404).json({message: 'Error!'});
     }
