@@ -111,7 +111,7 @@ exports.createCmt = async (req, res) => {
         review_id: req.body.review_id,
         account_id: req.user.id,
         content: req.body.content,
-        role: role
+        role: req.body.role
     }
 
     const result = await reviewService.createCmt(cmtObj);

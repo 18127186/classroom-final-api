@@ -60,6 +60,7 @@ exports.createAssignment = async function(req, res) {
             "creator": req.user.id, 
             "deadline": req.body.deadline,
             "grade": req.body.grade,
+            "rank": req.body.rank
         };
     
         const assignment = await assignmentService.createAssignment(assignObj);

@@ -1,7 +1,7 @@
 const db = require("../../database");
 
 exports.getNotiByClass = (idAcc, idClass) => db.execute(
-    "SELECT A.id_class as id_class, "
+    "SELECT A.id as id, A.id_class as id_class, "
     + "     B.name as name, "
     + "     A.content as content, "
     + "     A.time as time, "

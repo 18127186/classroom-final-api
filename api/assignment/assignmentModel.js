@@ -11,9 +11,9 @@ exports.getAssignById = (idAssign) => db.execute(
     + `WHERE id = '${idAssign}'`);
 
 exports.createAssignment = (assignObj) => db.execute(
-    `INSERT INTO assignments (class_id, topic, description, creator, deadline, grade)  
+    `INSERT INTO assignments (class_id, topic, description, creator, deadline, grade, rank)  
      VALUES ('${assignObj.idClass}', '${assignObj.topic}', '${assignObj.description}', 
-            '${assignObj.creator}', '${assignObj.deadline}', '${assignObj.grade}')`);
+            '${assignObj.creator}', '${assignObj.deadline}', '${assignObj.grade}', '${assignObj.rank}')`);
 
 exports.deleteAssignment = (idAssign) => db.execute(
     `DELETE FROM assignments 
